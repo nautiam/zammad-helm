@@ -61,6 +61,7 @@ zammadConfig:
     # host env var is only used when zammadConfig.memcached.enabled is false
     host: zammad-memcached
     port: 11211
+    containerSecurityContext.enabled: false
   nginx:
     extraHeaders: []
       # - 'HeaderName "Header Value"'
@@ -104,6 +105,12 @@ zammadConfig:
     port: 5432
     # needs to be the same as the postgresql.postgresqlUsername
     user: zammad
+    securityContext.enabled: false
+    volumePermissions.securityContext.runAsUser: "auto"
+    containerSecurityContext.enabled: false
+    shmVolume.chmod.enabled: false
+    primary.podSecurityContext.enabled: false
+    primary.containerSecurityContext.enabled: false
   railsserver:
     livenessProbe:
       httpGet:
@@ -139,6 +146,10 @@ zammadConfig:
     # needs to be the same as the redis.auth.password
     pass: zammad
     port: 6379
+    master.podSecurityContext.enabled: false
+    master.containerSecurityContext.enabled: false
+    replica.podSecurityContext.enabled: false
+    replica.containerSecurityContext.enabled: false
   scheduler:
     resources: {}
       # requests:
@@ -368,6 +379,8 @@ redis:
   auth:
     password: zammad
   master:
+    podSecurityContext.enabled: false
+    containerSecurityContext.enabled: false
     resources: {}
     # limits:https://charts.bitnami.com/bitnami
     #   cpu: 250m

@@ -16,18 +16,19 @@ maintainers:
     email: contact@zammad.com
 dependencies:
   - name: elasticsearch
-    repository: https://helm.elastic.co
+    repository: "file://../charts/elasticsearch"
     version: 7.16.3
     condition: zammadConfig.elasticsearch.enabled
   - name: memcached
     version: 6.0.2
-    repository: https://charts.bitnami.com/bitnami
+    repository: "file://../charts/memcached"
     condition: zammadConfig.memcached.enabled
   - name: postgresql
     version: 10.12.8
-    repository: https://charts.bitnami.com/bitnami
+    repository: "file://../charts/postgresql"
     condition: zammadConfig.postgresql.enabled
   - name: redis
     version: 15.7.6
-    repository: https://charts.bitnami.com/bitnami
+    #repository: https://charts.bitnami.com/bitnami
+    repository: "file://../charts/redis"
     condition: zammadConfig.redis.enabled

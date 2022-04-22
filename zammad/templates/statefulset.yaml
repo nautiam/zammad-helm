@@ -48,9 +48,7 @@ spec:
             - -cx
             - |
               chown 1000:1000 -R /opt/zammad
-          securityContext:
-            runAsNonRoot: false
-            runAsUser: 0
+          securityContext: {}
           {{- with .Values.zammadConfig.initContainers.volumePermissions.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
@@ -84,9 +82,7 @@ spec:
           {{- if .Values.extraEnv }}
           {{- toYaml .Values.extraEnv | nindent 12 }}
           {{- end }}
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
+          securityContext: {}
           {{- with .Values.zammadConfig.initContainers.zammad.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
@@ -101,9 +97,7 @@ spec:
         - name: postgresql-init
           image: {{ .Values.image.repository }}:{{ template "zammad.image.repositoryPrefix" . }}{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
+          securityContext: {}
           env:
           {{- if or .Values.zammadConfig.redis.pass .Values.secrets.redis.useExisting }}
             - name: REDIS_PASSWORD
@@ -139,9 +133,7 @@ spec:
         - name: elasticsearch-init
           image: {{ .Values.image.repository }}:{{ template "zammad.image.repositoryPrefix" . }}{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
+          securityContext: {}
           env:
           {{- if or .Values.zammadConfig.redis.pass .Values.secrets.redis.useExisting }}
             - name: REDIS_PASSWORD
@@ -191,9 +183,7 @@ spec:
           ports:
             - name: http
               containerPort: 8080
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
+          securityContext: {}
           volumeMounts:
             - name: {{ include "zammad.fullname" . }}
               mountPath: /opt/zammad
@@ -214,9 +204,7 @@ spec:
         - name: {{ .Chart.Name }}-railsserver
           image: {{ .Values.image.repository }}:{{ include "zammad.image.repositoryPrefix" . }}{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
+          securityContext: {}
           command:
             - "bundle"
             - "exec"
@@ -263,9 +251,7 @@ spec:
         - name: {{ .Chart.Name }}-scheduler
           image: {{ .Values.image.repository }}:{{ include "zammad.image.repositoryPrefix" . }}{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
+          securityContext: {}
           command:
             - "bundle"
             - "exec"
@@ -296,9 +282,7 @@ spec:
         - name: {{ .Chart.Name }}-websocket
           image: {{ .Values.image.repository }}:{{ include "zammad.image.repositoryPrefix" . }}{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
+          securityContext: {}
           command:
             - "bundle"
             - "exec"
@@ -341,10 +325,7 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-      securityContext:
-        fsGroup: 1000
-        runAsUser: 1000
-        runAsGroup: 1000
+      securityContext: {}
       volumes:
         - name: {{ template "zammad.fullname" . }}-nginx
           configMap:
